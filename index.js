@@ -1,11 +1,10 @@
 /*
-1/10/23
+1/11/23
 To Do
 ----
 * finish class creation
 * create tests for all classes
-* finish up the managerPrompt function and validate that it's pushing into teamArray for generator use
-* build an option to add additional managers to a team into managerPrompt
+* build out memberPrompt to create engineer and intern employees.
 * build generator - probably a good idea to set up a sample index.html and classes first to know the layout
 
 */
@@ -30,13 +29,13 @@ const Manager = require("./lib/manager");
 
 // array to hold team members for page generation
 
-let teamArray = [];
+let theTeam = [];
 
 // app load function that calls the manager inquirer prompt
 
 function init() {
     // app initiation greeting
-    console.log("Hi there!\n\nWelcome to the Team Page Generator.\n\nPlease answer the following questions to generate a page for your team.\n----------\n")
+    console.log("Hi there!\n\nWelcome to the Team Page Generator.\n\nPlease answer the following questions to generate a page for your team.\n---------\n")
     
     // calls the managerPrompt function after a short delay.
     setTimeout(managerPrompt, 2000);
@@ -44,9 +43,9 @@ function init() {
 
 // inquirer prompts
 
-function managerPrompt() {
-    // test console.log("this is where the manager prompt is going!")
+// manager/leader creation prompt
 
+function managerPrompt() {
     inquirer.prompt([
         {
             type: "input",
@@ -105,11 +104,39 @@ function managerPrompt() {
         }
     ])
     .then((managerData) => {
-        // test line to check inquirer outputs prior to pushing
-        console.log(managerData);
+        // variable to create a Manager object using the newly acquired inputs
+        const manager = new Manager(managerData.name, managerData.id, managerData.email, managerData.officeNumber);
+
+        // pushes the newly created manager to the team array
+        theTeam.push(manager);
+
+        // confirmation message
+        console.log(`\n${managerData.name} was added to the team!\n---------`)
+
+        // check to see if additional leaders need to be added
+        inquirer.prompt([
+            {
+                type: "confirm",
+                name: "addLeaders",
+                message: "Does this team have any additional leaders?",
+            }
+        ])
+        .then((moreLeaders) => {
+            if(moreLeaders.addLeaders) {
+                managerPrompt();
+            } else {
+                // call to non-leader team member creation function
+                memberPrompt();
+            };
+        })
     })
 }
 
-// app load initialization function call
+// engineer/intern creation prompt
 
+function memberPrompt() {
+    console.log("We're gonna create some team members soon!");
+}
+
+// app load initialization function call
 init();
