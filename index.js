@@ -1,8 +1,7 @@
 /*
-1/11/23
+1/12/23
 To Do
 ----
-* finish class creation
 * create tests for all classes
 * build out memberPrompt to create engineer and intern employees.
 * build generator - probably a good idea to set up a sample index.html and classes first to know the layout
@@ -22,7 +21,7 @@ const Manager = require("./lib/manager");
 
 // generator file
 
-// uncomment this when you're actually ready to use it - it's erroring right now due to not being defined.
+// uncomment this when you're actually ready to use it - it's erroring right now due to not being defined yet.
 // const generator = require("./src/generator")
 
 // global variable(s)
@@ -48,6 +47,7 @@ function init() {
 function managerPrompt() {
     inquirer.prompt([
         {
+            // team leader name input
             type: "input",
             name: "name",
             message: "What is the name of the team leader?",
@@ -62,6 +62,7 @@ function managerPrompt() {
             } 
         },
         {
+            // team leader ID input
             type: "input",
             name: "id",
             message: "What is the team leader's ID number?",
@@ -76,6 +77,7 @@ function managerPrompt() {
             }
         },
         {
+            // team leader email input
             type: "input",
             name: "email",
             message: "What is the team leader's email address?",
@@ -89,6 +91,7 @@ function managerPrompt() {
             }
         },
         {
+            // team leader office number input
             type: "input",
             name: "officeNumber",
             message: "What is the team leader's office number?",
@@ -121,11 +124,13 @@ function managerPrompt() {
                 message: "Does this team have any additional leaders?",
             }
         ])
+        // calls managerPrompt again to create more leader entries, otherwise moves the app on to team member creation
         .then((moreLeaders) => {
             if(moreLeaders.addLeaders) {
                 managerPrompt();
             } else {
                 // call to non-leader team member creation function
+                console.log("\nGot it. Moving on to team member creation..\n---------")
                 memberPrompt();
             };
         })
@@ -135,7 +140,39 @@ function managerPrompt() {
 // engineer/intern creation prompt
 
 function memberPrompt() {
-    console.log("We're gonna create some team members soon!");
+    // console.log("We're gonna create some team members soon!");
+    
+    inquirer.prompt([
+        {
+            // determines team member role 
+            type: "list",
+            name: "role",
+            message: "What is this team member's role?",
+            choices: ["Engineer", "Intern"]
+        },
+        {
+            // sets the team member's name
+            type: "input",
+            name: "name",
+            message: "What is this team member's name?",
+            // validation to ensure that a name is provided
+            validate: nameGiven => {
+                if (nameGiven) {
+                    return true;
+                } else {
+                    console.log("\nPlease provide a name for this team member to proceed.")
+                    return false;
+                }
+            } 
+        },
+        {
+            // sets the team member's ID number
+        }
+    ])
+    .then((memberData) => {
+        // just test placeholder text for now
+        console.log(memberData);
+    })
 }
 
 // app load initialization function call
