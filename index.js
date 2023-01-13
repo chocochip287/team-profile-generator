@@ -1,10 +1,11 @@
 /*
-1/12/23
+1/13/23
 To Do
 ----
 * create tests for all classes
-* build out memberPrompt to create engineer and intern employees.
 * build generator - probably a good idea to set up a sample index.html and classes first to know the layout
+
+Future Scoping:
 
 */
 
@@ -87,6 +88,7 @@ function managerPrompt() {
                     return true;
                 } else {
                     console.log("\nPlease provide an email for this team leader to proceed.")
+                    return false;
                 }
             }
         },
@@ -167,11 +169,102 @@ function memberPrompt() {
         },
         {
             // sets the team member's ID number
+            type: "input",
+            name: "id",
+            message: "What is this team member's ID number?",
+            // validation that ensures the provided ID is a numeric value
+            validate: idGiven => {
+                if (!isNaN(idGiven)) {
+                    return true;
+                } else { 
+                    console.log("\nID must be a numeric value.")
+                    return false;
+                }
+            }
+        },
+        {
+            // sets the team member's email address
+            type: "input",
+            name: "email",
+            message: "What is this team member's email address?",
+            // validation to ensure that an email address is provided
+            validate: emailGiven => {
+                if (emailGiven) {
+                    return true;
+                } else {
+                    console.log("\nPlease provide an email for this team member to proceed.")
+                    return false;
+                }
+            }
+        },
+        {
+            // sets the team member's github account if engineer was selected as role
+            type: "input",
+            name: "github",
+            message: "What is this engineer's GitHub username?",
+            when: (memberData) => memberData.role === "Engineer",
+            validate: githubGiven => {
+                if (githubGiven) {
+                    return true;
+                } else {
+                    console.log("\nPlease provide a GitHub username for this engineer to proceed.")
+                    return false;
+                }
+            }
+        },
+        {
+            // sets the team member's school if intern was selected as role
+            type: "input",
+            name: "school",
+            message: "What school does this intern attend?",
+            when: (memberData) => memberData.role === "Intern",
+            validate: schoolGiven => {
+                if (schoolGiven) {
+                    return true;
+                } else {
+                    console.log("\nPlease provide this intern's school to proceed.")
+                    return false;
+                }
+            }
         }
     ])
     .then((memberData) => {
-        // just test placeholder text for now
-        console.log(memberData);
+
+        // pushes team members into the team array after creating role based objects
+        if (memberData.role === "Engineer") {
+            // engineer variable to hold the new engineer's data
+            const engineer = new Engineer(memberData.name, memberData.id, memberData.email, memberData.github);
+
+            // pushes the newly created engineer to the team array
+            theTeam.push(engineer);
+        } else {
+            // intern variable to hold the new intern's data
+            const intern = new Intern(memberData.name, memberData.id, memberData.email, memberData.school)
+
+            // pushes the newly created intern to the team array
+            theTeam.push(intern);
+        }
+
+        // confirmation message
+        console.log(`\n${memberData.name} was added to the team!\n---------`)
+
+        // check to see if additional members need to be added
+        inquirer.prompt([
+            {
+                type: "confirm",
+                name: "addMembers",
+                message: "Does this team have any additional members?",
+            }
+        ])
+        // calls memberPrompt again to create more member entries, otherwise moves the app on to generate the team page
+        .then((moreMembers) => {
+            if(moreMembers.addMembers) {
+                memberPrompt();
+            } else {
+                console.log("\nGot it. Your team is complete!\nMoving on to building your team page..\n---------");
+                // call to page generator using team data
+            };
+        })
     })
 }
 
