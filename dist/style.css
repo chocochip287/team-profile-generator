@@ -1,9 +1,44 @@
 * {
     background-color: rgb(61, 61, 61);
     color: rgb(255,255,255);
-    box-sizing: border-box;
 }
 
 body {
     font-family: Calibri, Helvetica, Arial, sans-serif;
+    font-size: 30px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    background-color:rgb(109, 71, 71);
+}
+
+nav h1 {
+    background-color:rgb(109, 71, 71);
+}
+
+#main-div {
+    padding: 50px;
+}
+
+.teammember {
+    border: 1px solid rgb(167, 157, 157);
+    padding: 5px;
+}
+
+.memberheader {
+    border: 2px solid black;
+}
+
+.memberinfo {
+    margin-top: 10px;
+}
+
+.memberinfo p {
+    border: 2px solid black;
+}
+
+.container {
+    justify-content: space-evenly;   
 }

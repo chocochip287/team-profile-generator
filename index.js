@@ -2,10 +2,14 @@
 1/13/23
 To Do
 ----
-* create tests for all classes
-* build generator - probably a good idea to set up a sample index.html and classes first to know the layout
+* Create tests for all classes
+* Complete the generator - transfer the HTML shell from index.html into a holder function in generator.js and test the bejesus out of it.
+* Set up the actual writeFile function for generator's output.
 
-Future Scoping:
+Future Scoping
+----
+* Make the stylization much, much prettier. It's been a long time since I've worked on a front end all the way through and since there's so much new-to-me tech here I didn't wanna spend too much effort/brain power on prettying up the MVP versus establishing base functionality.
+* Work on inquirer validation - make it more specific for individual questions versus simple "was a value provided" sort of pass/fails, e.g. specific character validation for emails and the like.
 
 */
 
@@ -15,6 +19,7 @@ const inquirer = require("inquirer");
 
 // class links
 
+// do I need Employee here since it isn't actually referenced by any of the prompts?
 const Employee = require("./lib/employee");
 const Engineer = require("./lib/engineer");
 const Intern = require("./lib/intern");
@@ -23,7 +28,7 @@ const Manager = require("./lib/manager");
 // generator file
 
 // uncomment this when you're actually ready to use it - it's erroring right now due to not being defined yet.
-// const generator = require("./src/generator")
+const {arrayEater} = require("./src/generator")
 
 // global variable(s)
 
@@ -263,6 +268,7 @@ function memberPrompt() {
             } else {
                 console.log("\nGot it. Your team is complete!\nMoving on to building your team page..\n---------");
                 // call to page generator using team data
+                arrayEater(theTeam);
             };
         })
     })
@@ -270,3 +276,18 @@ function memberPrompt() {
 
 // app load initialization function call
 init();
+
+/* 
+test junkyard
+
+    // method test for generator planning - printed correctly for a manager/manager/engineer/intern array
+
+    console.log("Below is a test of the getRole method on each element!\n---------")
+
+    for (let i=0; i < theTeam.length; i++) {
+        
+        let member = theTeam[i];
+        console.log(member.getRole());
+    }   
+
+*/
