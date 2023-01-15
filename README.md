@@ -24,7 +24,7 @@ Clone the application's repository to your local machine. From your machine's te
 
 Answer all questions when prompted by the application. The application will then generate a homepage based on the provided inputs without any additional touches by the user.
 
-A video demonstrating the application's usage can be seen here: [YouTube - pending completion](https://www.youtube.com/)
+A video demonstrating the application's usage can be seen here: [YouTube](https://youtu.be/4LcCRskqjgM)
 
 ## Tests
 
