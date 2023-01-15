@@ -18,7 +18,7 @@ This application generates an HTML homepage displaying members of a team based o
 
 ## Installation Instructions
 
-Clone the application's repository to your local machine. From your machine's terminal, run 'npm i' to install the required packages.
+Clone the application's repository to your local machine. From your machine's terminal in the folder containing the generator's package.json file, run 'npm i' to install the required packages.
 
 ## Usage
 
