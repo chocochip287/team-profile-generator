@@ -1,9 +1,8 @@
 /*
-1/14/23
+1/15/23
 To Do
 ----
-* Create tests for all classes
-* Record demo
+* Nothing for now. MVP done. 
 
 Future Scoping
 ----
