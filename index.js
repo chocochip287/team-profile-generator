@@ -1,63 +1,58 @@
 /*
-1/13/23
+1/14/23
 To Do
 ----
 * Create tests for all classes
-* Complete the generator - transfer the HTML shell from index.html into a holder function in generator.js and test the bejesus out of it.
-* Set up the actual writeFile function for generator's output.
+* Record demo
 
 Future Scoping
 ----
 * Make the stylization much, much prettier. It's been a long time since I've worked on a front end all the way through and since there's so much new-to-me tech here I didn't wanna spend too much effort/brain power on prettying up the MVP versus establishing base functionality.
-* Work on inquirer validation - make it more specific for individual questions versus simple "was a value provided" sort of pass/fails, e.g. specific character validation for emails and the like.
+* Refine the inquirer validation - make it more specific for individual questions versus simple "was a value provided" sort of pass/fails, e.g. specific character validation for emails, not letting ID values be the same for multiple team members, etc.
 
 */
 
-// node stuff
-const fs = require("fs");
+// Inquirer link
 const inquirer = require("inquirer");
 
-// class links
+// Class links
 
-// do I need Employee here since it isn't actually referenced by any of the prompts?
-const Employee = require("./lib/employee");
 const Engineer = require("./lib/engineer");
 const Intern = require("./lib/intern");
 const Manager = require("./lib/manager");
 
-// generator file
+// Generator file
 
-// uncomment this when you're actually ready to use it - it's erroring right now due to not being defined yet.
 const {arrayEater} = require("./src/generator")
 
-// global variable(s)
+// Global variable(s)
 
-// array to hold team members for page generation
+// Array to hold team members for page generation
 
 let theTeam = [];
 
-// app load function that calls the manager inquirer prompt
+// App load function that calls the manager inquirer prompt to begin the process
 
 function init() {
-    // app initiation greeting
-    console.log("Hi there!\n\nWelcome to the Team Page Generator.\n\nPlease answer the following questions to generate a page for your team.\n---------\n")
+    // App initiation greeting
+    console.log("Hi there!\n\nWelcome to the Team Page Generator.\n\nPlease answer the following questions to generate a page for your team.\n---------\n\n")
     
-    // calls the managerPrompt function after a short delay.
-    setTimeout(managerPrompt, 2000);
+    // Calls the managerPrompt function after a short delay.
+    setTimeout(managerPrompt, 1500);
 }
 
-// inquirer prompts
+// Inquirer prompts
 
-// manager/leader creation prompt
+// Manager/leader creation prompt
 
 function managerPrompt() {
     inquirer.prompt([
         {
-            // team leader name input
+            // Team leader name input
             type: "input",
             name: "name",
             message: "What is the name of the team leader?",
-            // validation to ensure that a name is provided
+            // Validation to ensure that a name is provided
             validate: nameGiven => {
                 if (nameGiven) {
                     return true;
@@ -68,13 +63,13 @@ function managerPrompt() {
             } 
         },
         {
-            // team leader ID input
+            // Team leader ID input
             type: "input",
             name: "id",
             message: "What is the team leader's ID number?",
-            // validation that ensures the provided ID is a numeric value
+            // Validation that ensures the provided ID is a numeric value
             validate: idGiven => {
-                if (!isNaN(idGiven)) {
+                if (!isNaN(idGiven) && idGiven) {
                     return true;
                 } else { 
                     console.log("\nID must be a numeric value.")
@@ -83,11 +78,11 @@ function managerPrompt() {
             }
         },
         {
-            // team leader email input
+            // Team leader email input
             type: "input",
             name: "email",
             message: "What is the team leader's email address?",
-            // validation to ensure that an email address is provided
+            // Validation to ensure that an email address is provided
             validate: emailGiven => {
                 if (emailGiven) {
                     return true;
@@ -98,13 +93,13 @@ function managerPrompt() {
             }
         },
         {
-            // team leader office number input
+            // Team leader office number input
             type: "input",
             name: "officeNumber",
             message: "What is the team leader's office number?",
-            // validation to ensure that officeNumber is a number
+            // Validation to ensure that officeNumber is a number
             validate: givenOfficeNumber => {
-                if (!isNaN(givenOfficeNumber)) {
+                if (!isNaN(givenOfficeNumber) && givenOfficeNumber) {
                     return true;
                 } else {
                     console.log("\nOffice number must be a numeric value.");
@@ -114,16 +109,16 @@ function managerPrompt() {
         }
     ])
     .then((managerData) => {
-        // variable to create a Manager object using the newly acquired inputs
+        // Variable to create a Manager object using the newly acquired inputs
         const manager = new Manager(managerData.name, managerData.id, managerData.email, managerData.officeNumber);
 
-        // pushes the newly created manager to the team array
+        // Pushes the newly created manager to the team array
         theTeam.push(manager);
 
-        // confirmation message
+        // Confirmation message
         console.log(`\n${managerData.name} was added to the team!\n---------`)
 
-        // check to see if additional leaders need to be added
+        // Check to see if additional leaders need to be added
         inquirer.prompt([
             {
                 type: "confirm",
@@ -131,12 +126,12 @@ function managerPrompt() {
                 message: "Does this team have any additional leaders?",
             }
         ])
-        // calls managerPrompt again to create more leader entries, otherwise moves the app on to team member creation
+        // Calls managerPrompt again to create more leader entries, otherwise moves the app on to team member creation
         .then((moreLeaders) => {
             if(moreLeaders.addLeaders) {
                 managerPrompt();
             } else {
-                // call to non-leader team member creation function
+                // Call to non-leader team member creation function
                 console.log("\nGot it. Moving on to team member creation..\n---------")
                 memberPrompt();
             };
@@ -144,25 +139,23 @@ function managerPrompt() {
     })
 }
 
-// engineer/intern creation prompt
+// Engineer/intern creation prompt
 
 function memberPrompt() {
-    // console.log("We're gonna create some team members soon!");
-    
     inquirer.prompt([
         {
-            // determines team member role 
+            // Determines team member role 
             type: "list",
             name: "role",
             message: "What is this team member's role?",
             choices: ["Engineer", "Intern"]
         },
         {
-            // sets the team member's name
+            // Sets the team member's name
             type: "input",
             name: "name",
             message: "What is this team member's name?",
-            // validation to ensure that a name is provided
+            // Validation to ensure that a name is provided
             validate: nameGiven => {
                 if (nameGiven) {
                     return true;
@@ -173,13 +166,13 @@ function memberPrompt() {
             } 
         },
         {
-            // sets the team member's ID number
+            // Sets the team member's ID number
             type: "input",
             name: "id",
             message: "What is this team member's ID number?",
-            // validation that ensures the provided ID is a numeric value
+            // Validation that ensures the provided ID is a numeric value
             validate: idGiven => {
-                if (!isNaN(idGiven)) {
+                if (!isNaN(idGiven) && idGiven) {
                     return true;
                 } else { 
                     console.log("\nID must be a numeric value.")
@@ -188,11 +181,11 @@ function memberPrompt() {
             }
         },
         {
-            // sets the team member's email address
+            // Sets the team member's email address
             type: "input",
             name: "email",
             message: "What is this team member's email address?",
-            // validation to ensure that an email address is provided
+            // Validation to ensure that an email address is provided
             validate: emailGiven => {
                 if (emailGiven) {
                     return true;
@@ -203,7 +196,7 @@ function memberPrompt() {
             }
         },
         {
-            // sets the team member's github account if engineer was selected as role
+            // Sets the team member's github account if engineer was selected as role
             type: "input",
             name: "github",
             message: "What is this engineer's GitHub username?",
@@ -218,7 +211,7 @@ function memberPrompt() {
             }
         },
         {
-            // sets the team member's school if intern was selected as role
+            // Sets the team member's school if intern was selected as role
             type: "input",
             name: "school",
             message: "What school does this intern attend?",
@@ -235,12 +228,12 @@ function memberPrompt() {
     ])
     .then((memberData) => {
 
-        // pushes team members into the team array after creating role based objects
+        // Pushes team members into the team array after creating role based objects
         if (memberData.role === "Engineer") {
-            // engineer variable to hold the new engineer's data
+            // Engineer variable to hold the new engineer's data
             const engineer = new Engineer(memberData.name, memberData.id, memberData.email, memberData.github);
 
-            // pushes the newly created engineer to the team array
+            // Pushes the newly created engineer to the team array
             theTeam.push(engineer);
         } else {
             // intern variable to hold the new intern's data
@@ -250,10 +243,10 @@ function memberPrompt() {
             theTeam.push(intern);
         }
 
-        // confirmation message
+        // Confirmation message
         console.log(`\n${memberData.name} was added to the team!\n---------`)
 
-        // check to see if additional members need to be added
+        // Check to see if additional members need to be added
         inquirer.prompt([
             {
                 type: "confirm",
@@ -261,7 +254,7 @@ function memberPrompt() {
                 message: "Does this team have any additional members?",
             }
         ])
-        // calls memberPrompt again to create more member entries, otherwise moves the app on to generate the team page
+        // Calls memberPrompt again to create more member entries, otherwise moves the app on to generate the team page
         .then((moreMembers) => {
             if(moreMembers.addMembers) {
                 memberPrompt();
@@ -276,18 +269,3 @@ function memberPrompt() {
 
 // app load initialization function call
 init();
-
-/* 
-test junkyard
-
-    // method test for generator planning - printed correctly for a manager/manager/engineer/intern array
-
-    console.log("Below is a test of the getRole method on each element!\n---------")
-
-    for (let i=0; i < theTeam.length; i++) {
-        
-        let member = theTeam[i];
-        console.log(member.getRole());
-    }   
-
-*/
