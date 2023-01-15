@@ -20,17 +20,17 @@ function makeManager(member) {
     // Code here in template literal form to plug back into the teamCode array
 
     return `
-    <div class="teammember col-4">
-        <div class="memberheader">
-            <h4>${member.name}</h4>
-            <h5><i class="fas fa-crown"></i>Manager</h5>
-          </div>
-          <div class="memberinfo">
-            <p>ID: ${member.id}</p>
-            <p>Email: <a href="mailto:${member.email}">${member.email}</a></p>
-            <p>Office Number: ${member.officeNumber}</p>
-          </div>
-    </div>
+            <div class="teammember col-4">
+                <div class="memberheader">
+                    <h4>${member.name}</h4>
+                    <h5><i class="fas fa-crown"></i>Manager</h5>
+                </div>
+                <div class="memberinfo">
+                    <p>ID: ${member.id}</p>
+                    <p>Email: <a href="mailto:${member.email}">${member.email}</a></p>
+                    <p>Office Number: ${member.officeNumber}</p>
+                </div>
+            </div>
     `
 }
 
@@ -40,17 +40,17 @@ function makeEngineer(member) {
     // Code here in template literal form to plug back into the teamCode array
 
     return `
-    <div class="teammember col-4">
-        <div class="memberheader">
-            <h4>${member.name}</h4>
-            <h5><i class="fas fa-cog"></i>Engineer</h5>
-        </div>
-        <div class="memberinfo">
-            <p>ID: ${member.id}</p>
-            <p>Email: <a href="mailto:${member.email}">${member.email}</a></p>
-            <p>GitHub: <a href="https://github.com/${member.github}">${member.github}</a></p>
-        </div>
-    </div>
+            <div class="teammember col-4">
+                <div class="memberheader">
+                    <h4>${member.name}</h4>
+                    <h5><i class="fas fa-cog"></i>Engineer</h5>
+                </div>
+                <div class="memberinfo">
+                    <p>ID: ${member.id}</p>
+                    <p>Email: <a href="mailto:${member.email}">${member.email}</a></p>
+                    <p>GitHub: <a href="https://github.com/${member.github}">${member.github}</a></p>
+                </div>
+            </div>
     `
 }
 
@@ -60,16 +60,17 @@ function makeIntern(member) {
     // Code here in template literal form to plug back into the teamCode array
     
     return `
-    <div class="teammember col-4">
-        <div class="memberheader">
-            <h4>${member.name}</h4>
-            <h5><i class="fas fa-user-graduate"></i>Intern</h5>
-        </div>
-        <div class="memberinfo">
-            <p>ID: ${member.id}</p>
-            <p>Email: <a href="mailto:${member.email}">${member.email}</a></p>
-            <p>School: ${member.school}</p>
-    </div>
+            <div class="teammember col-4">
+                <div class="memberheader">
+                    <h4>${member.name}</h4>
+                    <h5><i class="fas fa-user-graduate"></i>Intern</h5>
+                </div>
+                <div class="memberinfo">
+                    <p>ID: ${member.id}</p>
+                    <p>Email: <a href="mailto:${member.email}">${member.email}</a></p>
+                    <p>School: ${member.school}</p>
+                </div>
+            </div>
     `
 }
 
@@ -134,11 +135,11 @@ function arrayEater(theTeam) {
     let role = member.getRole();
     
     if (role === "Manager") {
-        // Kick the member to the manager transformer
-        const madeManager = makeManager(member);
+            // Kick the member to the manager transformer
+            const madeManager = makeManager(member);
 
-        // Kick the transformed manager data back to the teamCode array
-        teamCode.push(madeManager);
+            // Kick the transformed manager data back to the teamCode array
+            teamCode.push(madeManager);
 
         } else if (role === "Engineer") {
             // Kick the member to the engineer transformer
